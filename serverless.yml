@@ -1,3 +1,5 @@
+org: anthonyalarcon
+app: node-serverless-api
 service: starwars-api
 
 provider:
