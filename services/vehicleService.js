@@ -11,10 +11,15 @@ const getVehicles = async () => {
 
 const createVehicle = async (data) => {
   const connection = await getConnection();
-  await connection.execute('INSERT INTO Vehicles (nombre, modelo, fabricante, costo_en_creditos, longitud, velocidad_maxima, tripulacion, pasajeros, capacidad_de_carga, consumibles, clase_de_vehiculo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
-    data.nombre, data.modelo, data.fabricante, data.costo_en_creditos, data.longitud, data.velocidad_maxima, data.tripulacion, data.pasajeros, data.capacidad_de_carga, data.consumibles, data.clase_de_vehiculo
-  ]);
-  await connection.end();
+  try {
+    await connection.execute('INSERT INTO vehicles (nombre, modelo, fabricante, costo_en_creditos, longitud, velocidad_maxima, tripulacion, pasajeros, capacidad_de_carga, consumibles, clase_de_vehiculo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', [
+      data.nombre, data.modelo, data.fabricante, data.costo_en_creditos, data.longitud, data.velocidad_maxima, data.tripulacion, data.pasajeros, data.capacidad_de_carga, data.consumibles, data.clase_de_vehiculo
+    ]);
+  } catch (error) {
+    throw new Error('Error al crear el vehículo: ' + error.message);
+  } finally {
+    await connection.end();
+  }
 };
 
 const fetchAndTranslateVehicle = async () => {
